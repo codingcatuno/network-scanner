@@ -64,11 +64,7 @@ int main()
             std::cout << i << " OPEN" << std::endl;
             openlist.push_back(i);
             openamount++;
-        }
-        else
-        {
-            std::cout << i << " CLOSED" << std::endl;
-        }
+        } 
 
         // Close Connection
         int closing = close(clientsocket);
@@ -90,11 +86,7 @@ int main()
     std::cout << std::endl << "Scan complete." << std::endl
     << "Ports scanned: " << endport - startport << std::endl
     << "Open ports: " << openamount << std::endl << std::endl
-    << "Open: ";
-    
-    for (int i : openlist){
-        std::cout << i << std::endl;
-    }
+    << "Open: "; for (int i : openlist){std::cout << i << std::endl;}
 
     std::cout << "Time Elapsed: " << milli.count() << " ms" << std::endl;
 
