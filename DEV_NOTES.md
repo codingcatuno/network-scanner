@@ -27,3 +27,9 @@
 - Stop displaying closed ports by default.
 - Investigate concurrent scanning.
 - Compare concurrent performance against this sequential baseline.
+
+**PERSONAL notes**
+
+set up threads goodluck
+
+make sure you reformat the scanner results if you havent already.
