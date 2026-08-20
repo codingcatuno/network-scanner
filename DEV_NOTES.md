@@ -1,35 +1,30 @@
-# Network Scanner — Development Notes
+## Concurrent Scanner Benchmark
 
-## Sequential Scanner Baseline
+### Sequential Baseline
 
-### Current Implementation
-- TCP connect scanner
-- IPv4
-- Target: localhost (127.0.0.1)
-- Scans ports sequentially
-- Open ports stored in a vector
+| Port Range | Time |
+|------------|------|
+| 1–1,000 | 31 ms |
+| 1–10,000 | 236 ms |
 
-### Performance
+### Concurrent Results
 
-| Port Range | Ports Scanned | Time |
-|------------|---------------|------|
-| 1–1,000    | 1,000         | 31 ms |
-| 1–10,000   | 10,000        | 236 ms |
+| Port Range | Run 1 | Run 2 | Run 3 | Average |
+|------------|------:|------:|------:|--------:|
+| 1–1,000 | 6 ms | 6 ms | 9 ms | 7 ms |
+| 1–10,000 | 65 ms | 76 ms | 72 ms | 71 ms |
 
-### Observations
-- Localhost scanning is very fast.
-- Each port is currently scanned one at a time.
-- Connection attempts are independent of each other.
-- Closed localhost ports appear to reject connections quickly.
-- Port 631 was unexpectedly found open.
+### Approximate Speedup
 
-### Ideas / Next Steps
-- Stop displaying closed ports by default.
-- Investigate concurrent scanning.
-- Compare concurrent performance against this sequential baseline.
+- 1–1,000 ports: ~4.4x faster
+- 1–10,000 ports: ~3.3x faster
+
+### Observation
+
+Using a bounded worker-thread pool significantly reduced scan time compared with the sequential implementation. The scanner distributes independent port-scan jobs through a shared queue while mutexes protect the work queue and results vector.
 
 **PERSONAL notes**
 
-set up threads goodluck
+set up benchmarking code
 
 make sure you reformat the scanner results if you havent already.
